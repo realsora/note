@@ -25,8 +25,8 @@ class App extends Component {
 
   getNotes = () => {
     axios.get('https://note-app-sora-doh.herokuapp.com/notes')
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err.response.data));
+    .then((res) => console.log(res.data));
+    // .catch((err) => console.log(err.response.data));
   }
 
   render(){
