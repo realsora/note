@@ -23,7 +23,7 @@ class App extends Component {
     });
   }
 
-  getNotes =() => {
+  getNotes = () => {
     axios.get('https://note-app-sora-doh.herokuapp.com/notes')
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err.response.data));
@@ -35,7 +35,7 @@ class App extends Component {
     return (
     <div className="App">
       <Nav toggleNote ={ this.toggleNote} showNote={showNote}/>
-      {showNote ? <Note /> : <List getNotes = {this.getNotes} />}
+      { showNote ? <Note /> : <List getNotes = {this.getNotes} />}
     </div>
   );
 }
