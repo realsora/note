@@ -12,6 +12,8 @@ class List extends React.Component {
       <div className ="list-container">
 
         List Component
+
+        Note1 : This is the first note.
       </div>
       );
   }
