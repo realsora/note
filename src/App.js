@@ -14,7 +14,9 @@ class App extends Component {
     /*this.state sets default state when the application is first loaded*/
     this.state ={
       // give this object
-      showNote: false
+      showNote: false, 
+      notes: [], 
+      note: {}
     };
   }
 
@@ -26,20 +28,55 @@ class App extends Component {
 
   getNotes = () => {
     axios.get(urlFor('notes'))
-    .then((res) => console.log(res.data+"!@#!@!"));
-   // .catch((err) => console.log(err.response.data));
+    .then((res) => this.setState({ notes:res.data}));
+    //.catch((err) => console.log(err.response.data));
+  }
+
+  getNote = (id) => {
+    axios.get(urlFor(`notes/${id}`))
+    .then((res) => this.setState({ note: res.data, showNote: true}))
+    .catch((err) => console.log(err.response.data));
+  }
+
+  performSubmissionRequest = (data, id) => {
+    if(id){
+      //TODO: perform update request
+      return axios.patch(urlFor(`notes/${id}`), data);
+    }else{
+      return axios.post(urlFor('notes'),data);
+      }
+    }
+  
+
+  submitNote = (data, id) => {
+    this.performSubmissionRequest(data, id)
+    .then((res) => this.setState({ showNote: false}) )
+    .catch((err) => console.log(err.response.data));
   }
 
   render(){
-    const {showNote } = this.state;
+    const {showNote, notes, note } = this.state;
 
     return (
     <div className="App">
       <Nav toggleNote ={ this.toggleNote} showNote={showNote}/>
-      { showNote ? <Note /> : <List getNotes = {this.getNotes} />}
+      { showNote ? 
+        <Note 
+          note={note}
+          submitNote = {this.submitNote}
+          /> 
+        : 
+        <List
+           getNotes = {this.getNotes}
+        notes ={notes}
+        getNote = {this.getNote} 
+        />
+      }
     </div>
   );
 }
 }
 
 export default App;
+
+
